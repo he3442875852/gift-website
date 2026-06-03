@@ -5,27 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>One-Stop Corporate Gift Solution | OEM Custom Gift Sets Manufacturer</title>
   <meta name="description" content="Custom corporate gift sets manufacturer. One-stop OEM/ODM solution for corporate welcome kits, sports events, and promotional gift boxes. Fast sampling & global shipping.">
+
   <style>
     body{font-family:Arial,sans-serif;margin:0;background:#f6f7fb;color:#333;}
     header{background:linear-gradient(120deg,#111,#333);color:#fff;padding:70px 20px;text-align:center;position:relative;}
     header h1{font-size:42px;margin:0;}
     header p{font-size:18px;opacity:.85;max-width:700px;margin:10px auto;}
-    .btn{display:inline-block;margin-top:20px;padding:14px 28px;background:#ff6a00;color:#fff;text-decoration:none;border-radius:8px;font-weight:bold;}
+
+    .btn{display:inline-block;margin-top:20px;padding:14px 28px;background:#ff6a00;color:#fff;text-decoration:none;border-radius:8px;font-weight:bold;cursor:pointer;}
+
     nav{background:#fff;padding:14px 20px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:sticky;top:0;z-index:999;}
     nav a{margin:0 15px;text-decoration:none;color:#333;font-weight:bold;}
     nav a:hover{color:#ff6a00;}
+
     section{padding:60px 20px;max-width:1100px;margin:auto;}
+
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;}
+
     .card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.08);transition:.2s;}
     .card:hover{transform:translateY(-4px);}
+
     .tag{display:inline-block;background:#ffe7d6;color:#ff6a00;padding:4px 10px;border-radius:20px;font-size:12px;margin-bottom:10px;}
+
     footer{text-align:center;padding:40px;background:#111;color:#fff;}
+
     .contact-box{background:#fff;padding:30px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.08);text-align:center;}
+
     .img-box img{width:100%;height:220px;object-fit:cover;border-radius:10px;margin-top:10px;}
+
     .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;}
     .gallery img{width:100%;height:180px;object-fit:cover;border-radius:10px;}
 
-    /* Floating WhatsApp */
+    /* WhatsApp */
     .wa-float{
       position:fixed;
       bottom:20px;
@@ -36,23 +47,38 @@
       border-radius:50px;
       font-weight:bold;
       text-decoration:none;
-      box-shadow:0 6px 20px rgba(0,0,0,0.2);
       z-index:9999;
     }
 
-    /* RFQ form */
-    .rfq{
-      background:#fff;
-      padding:30px;
-      border-radius:12px;
-      box-shadow:0 6px 18px rgba(0,0,0,0.08);
-      margin-top:30px;
+    /* MODAL */
+    .modal{
+      display:none;
+      position:fixed;
+      z-index:99999;
+      left:0;top:0;
+      width:100%;height:100%;
+      background:rgba(0,0,0,0.6);
     }
-    .rfq input, .rfq textarea{
+    .modal-content{
+      background:#fff;
+      width:90%;
+      max-width:500px;
+      margin:10% auto;
+      padding:25px;
+      border-radius:12px;
+      position:relative;
+    }
+    .close{
+      position:absolute;
+      right:15px;
+      top:10px;
+      font-size:22px;
+      cursor:pointer;
+    }
+    .modal input,.modal textarea{
       width:100%;
-      padding:12px;
-      margin-top:10px;
-      margin-bottom:15px;
+      padding:10px;
+      margin:10px 0;
       border:1px solid #ddd;
       border-radius:8px;
     }
@@ -85,6 +111,7 @@
       <div class="img-box">
         <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=60" />
       </div>
+      <button class="btn" onclick="openRFQ('Corporate Welcome Kit')">Get Quote</button>
     </div>
 
     <div class="card">
@@ -94,6 +121,7 @@
       <div class="img-box">
         <img src="https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=800&q=60" />
       </div>
+      <button class="btn" onclick="openRFQ('Sports Event Gift Set')">Get Quote</button>
     </div>
 
     <div class="card">
@@ -103,20 +131,9 @@
       <div class="img-box">
         <img src="https://images.unsplash.com/photo-1513883049090-d0b7439799bf?auto=format&fit=crop&w=800&q=60" />
       </div>
+      <button class="btn" onclick="openRFQ('Festival Gift Box')">Get Quote</button>
     </div>
 
-  </div>
-</section>
-
-<section>
-  <h2 style="text-align:center;">🔥 Request for Quotation (RFQ)</h2>
-  <div class="rfq">
-    <form action="mailto:sales@yourcompany.com" method="post" enctype="text/plain">
-      <input type="text" name="name" placeholder="Your Name" required>
-      <input type="email" name="email" placeholder="Your Email" required>
-      <textarea name="message" rows="5" placeholder="Tell us your gift set requirement (quantity, logo, packaging...)" required></textarea>
-      <button class="btn" type="submit">Send RFQ</button>
-    </form>
   </div>
 </section>
 
@@ -140,12 +157,28 @@
   </div>
 </section>
 
+<!-- RFQ MODAL -->
+<div id="rfqModal" class="modal" onclick="closeRFQ()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <span class="close" onclick="closeRFQ()">&times;</span>
+    <h3>Request Quotation</h3>
+    <form action="mailto:sales@yourcompany.com" method="post" enctype="text/plain">
+      <input type="hidden" id="rfqProduct" name="product">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <textarea name="message" rows="5" placeholder="Tell us your requirement" required></textarea>
+      <button class="btn" type="submit">Send RFQ</button>
+    </form>
+  </div>
+</div>
+
 <footer>
   <p>© 2026 One-Stop Corporate Gift Solution. All rights reserved.</p>
 </footer>
 
-<!-- WhatsApp Floating Button -->
 <a class="wa-float" href="https://wa.me/86123456789" target="_blank">WhatsApp</a>
+
+<script src="script.js"></script>
 
 </body>
 </html>
